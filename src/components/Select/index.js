@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import TextErrors from "../TextErrors";
 const SelectComponent = React.forwardRef((props, ref) => {
+  console.log("select")
   return (
     <>
       <select
@@ -27,4 +28,4 @@ const SelectComponent = React.forwardRef((props, ref) => {
     </>
   );
 });
-export default SelectComponent;
+export default memo(SelectComponent);

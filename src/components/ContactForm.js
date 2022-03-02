@@ -6,7 +6,12 @@ import React, {
   useState,
 } from "react";
 import { useForm } from "react-hook-form";
-import { dataTemp, defaultValues } from "../utils/helpers";
+import {
+  dataRadio,
+  dataSelect,
+  dataTemp,
+  defaultValues,
+} from "../utils/helpers";
 import { yupSchema } from "../utils/yup-schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputComponent from "./Input";
@@ -44,6 +49,7 @@ const ContactForm = () => {
   const registerHandler = (data) => {
     console.log(data);
     //    reset({...defaultValues, data});
+    // reset(defaultValues)
   };
   // lắng nghe data của username -> giống onChange
   const usernameResult = watch("username");
@@ -58,8 +64,8 @@ const ContactForm = () => {
   console.log("ContactForm");
   const [check, setCheck] = useState([]);
   const funcCheck = useCallback(() => {
-    return fetch("https://jsonplaceholder.typicode.com/users")
-  },[])
+    return fetch("https://jsonplaceholder.typicode.com/users");
+  }, []);
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
@@ -67,7 +73,6 @@ const ContactForm = () => {
         setCheck(json);
       });
   }, []);
-  console.log(check);
   return (
     <>
       <form onSubmit={handleSubmit(registerHandler)}>
@@ -152,11 +157,7 @@ const ContactForm = () => {
           <SelectComponent
             {...register("status")}
             name="status"
-            data={[
-              { key: "Choose", value: "" },
-              { key: "Active", value: "active" },
-              { key: "Deactive", value: "deactive" },
-            ]}
+            data={dataSelect}
             errors={errors?.status?.message || ""}
             className="form-control"
             ref={register}
@@ -168,10 +169,7 @@ const ContactForm = () => {
             type="radio"
             name="sex"
             errors={errors?.sex?.message || ""}
-            data={[
-              { key: "Male", value: "male" },
-              { key: "Female", value: "female" },
-            ]}
+            data={dataRadio}
             ref={register}
             // ref={register({
             //   required: "Sex is required",
@@ -184,7 +182,7 @@ const ContactForm = () => {
             name="subcribe"
             errors={errors?.subcribe?.message || ""}
             data={dataTemp}
-           // funcCheck={funcCheck}
+            // funcCheck={funcCheck}
             //data={check}
             ref={register}
           />

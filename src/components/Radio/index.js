@@ -1,7 +1,7 @@
 import { forwardRef, memo } from "react";
 import TextErrors from "../TextErrors";
 const RadioComponent = forwardRef((props, ref) => {
- // console.log("radio")
+  console.log("radio")
   return (
     <>
       {props &&

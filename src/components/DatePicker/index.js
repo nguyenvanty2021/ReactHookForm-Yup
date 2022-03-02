@@ -1,7 +1,8 @@
 import TextField from "@mui/material/TextField";
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import TextErrors from "../TextErrors";
 const DatePickerComponent = forwardRef((props, ref) => {
+  console.log("datepicker")
   return (
     <>
       <TextField
@@ -19,4 +20,4 @@ const DatePickerComponent = forwardRef((props, ref) => {
     </>
   );
 });
-export default DatePickerComponent;
+export default memo(DatePickerComponent);
