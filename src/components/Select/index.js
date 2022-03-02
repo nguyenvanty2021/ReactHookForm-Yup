@@ -8,8 +8,6 @@ const SelectComponent = React.forwardRef((props, ref) => {
         onChange={props?.onChange}
         ref={ref}
         onBlur={props?.onBlur}
-        inputRef={ref}
-        fullWidth
         {...props}
       >
         {props?.data &&

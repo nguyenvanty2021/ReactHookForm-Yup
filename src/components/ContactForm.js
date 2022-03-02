@@ -1,6 +1,12 @@
-import React from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
-import { defaultValues } from "../utils/helpers";
+import { dataTemp, defaultValues } from "../utils/helpers";
 import { yupSchema } from "../utils/yup-schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputComponent from "./Input";
@@ -45,7 +51,23 @@ const ContactForm = () => {
     // bỏ check validate password và age khi username = Van Ty
     //   unregister(["password", "age"])
   }
-  console.log(errors);
+  // const dataRef = useRef([{ key: "Subcribe", value: "subcribe" }]);
+  // useMemo(() => {
+  //   dataTemp = [{ key: "Subcribe", value: "subcribe" }]
+  // }, []);
+  console.log("ContactForm");
+  const [check, setCheck] = useState([]);
+  const funcCheck = useCallback(() => {
+    return fetch("https://jsonplaceholder.typicode.com/users")
+  },[])
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((json) => {
+        setCheck(json);
+      });
+  }, []);
+  console.log(check);
   return (
     <>
       <form onSubmit={handleSubmit(registerHandler)}>
@@ -150,9 +172,10 @@ const ContactForm = () => {
               { key: "Male", value: "male" },
               { key: "Female", value: "female" },
             ]}
-            ref={register({
-              required: "Sex is required",
-            })}
+            ref={register}
+            // ref={register({
+            //   required: "Sex is required",
+            // })}
           />
         </div>
         <div className="form-group">
@@ -160,10 +183,10 @@ const ContactForm = () => {
             type="checkbox"
             name="subcribe"
             errors={errors?.subcribe?.message || ""}
-            data={[{ key: "Subcribe", value: "subcribe" }]}
-            ref={register({
-              required: "Subcribe is required",
-            })}
+            data={dataTemp}
+           // funcCheck={funcCheck}
+            //data={check}
+            ref={register}
           />
         </div>
         <div className="form-group">

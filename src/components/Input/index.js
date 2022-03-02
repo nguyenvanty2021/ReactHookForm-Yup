@@ -1,7 +1,8 @@
 import { TextField } from "@mui/material";
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import TextErrors from "../TextErrors";
 const InputComponent = forwardRef((props, ref) => {
+  console.log("Input")
   return (
     <>
       <TextField
@@ -19,4 +20,4 @@ const InputComponent = forwardRef((props, ref) => {
     </>
   );
 });
-export default InputComponent;
+export default memo(InputComponent);

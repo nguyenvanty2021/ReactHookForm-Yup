@@ -19,3 +19,4 @@ export const defaultValues = {
     sex:"male",
     subcribe: true,
 }
+export const dataTemp = [{ key: "Subcribe", value: "subcribe" }]

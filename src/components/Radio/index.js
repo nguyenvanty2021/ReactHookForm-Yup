@@ -1,6 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import TextErrors from "../TextErrors";
 const RadioComponent = forwardRef((props, ref) => {
+ // console.log("radio")
   return (
     <>
       {props &&
@@ -9,14 +10,7 @@ const RadioComponent = forwardRef((props, ref) => {
         props?.data.map((v, index) => {
           return (
             <div key={index}>
-              <input
-                inputRef={ref}
-                fullWidth
-                ref={ref}
-                value={v.value}
-                id={v.value}
-                {...props}
-              />
+              <input ref={ref} value={v.value} id={v.value} {...props} />
               <label htmlFor={v.value}>{v.key}</label>
             </div>
           );
@@ -27,4 +21,4 @@ const RadioComponent = forwardRef((props, ref) => {
     </>
   );
 });
-export default RadioComponent;
+export default memo(RadioComponent);

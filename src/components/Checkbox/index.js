@@ -1,6 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import TextErrors from "../TextErrors";
 const CheckboxComponent = forwardRef((props, ref) => {
+  console.log("checkbox")
   return (
     <>
       {props &&
@@ -10,10 +11,8 @@ const CheckboxComponent = forwardRef((props, ref) => {
           return (
             <div key={index}>
               <input
-                inputRef={ref}
-                fullWidth
                 ref={ref}
-              //  value={v.value}
+                //  value={v.value}
                 id={v.value}
                 {...props}
               />
@@ -27,4 +26,4 @@ const CheckboxComponent = forwardRef((props, ref) => {
     </>
   );
 });
-export default CheckboxComponent;
+export default memo(CheckboxComponent);
