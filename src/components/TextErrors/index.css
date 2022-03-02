@@ -1,0 +1,6 @@
+.errors {
+    color: red;
+    margin-top: 0.5rem;
+    display: flex;
+    width: 100%;
+}

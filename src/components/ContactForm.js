@@ -1,11 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { phonePattern, emailPattern, defaultValues } from "../utils/helpers";
+import { defaultValues } from "../utils/helpers";
 import { yupSchema } from "../utils/yup-schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputComponent from "./Input";
 import { ButtonComponent } from "./Button";
 import { Typography } from "@mui/material";
+import DatePickerComponent from "./DatePicker";
+import SelectComponent from "./Select";
+import RadioComponent from "./Radio";
+import CheckboxComponent from "./Checkbox";
 const ContactForm = () => {
   // typescript
   // interface FormValues = {
@@ -13,32 +17,35 @@ const ContactForm = () => {
   //     lastName: string
   // }
   // const { register, reset, errors, handleSubmit, getValues } = useForm<FormValues>({})
-  const [obj, setObj] = useState(defaultValues);
-  const { register, reset, errors, handleSubmit, getValues, watch, resetField, unregister } =
-    useForm({
-      // chế độ: khi click vào bỏ ra bắt lỗi or submit mới bắt lỗi
-      mode: "onTouched",
-      criteriaMode: "firstError",
-      // sẽ bắt lỗi khi
-      reValidateMode: "onChange",
-      defaultValues: defaultValues,
-      resolver: yupResolver(yupSchema),
-    });
+  const {
+    register,
+    reset,
+    errors,
+    handleSubmit,
+    getValues,
+    watch,
+    resetField,
+    unregister,
+  } = useForm({
+    // chế độ: khi click vào bỏ ra bắt lỗi or submit mới bắt lỗi
+    mode: "onTouched",
+    criteriaMode: "firstError",
+    // sẽ bắt lỗi khi
+    reValidateMode: "onChange",
+    defaultValues: defaultValues,
+    resolver: yupResolver(yupSchema),
+  });
   const registerHandler = (data) => {
     console.log(data);
-   // reset();
-   //setObj({...data})
-  // alert("123")
-   //    reset({...defaultValues, data});
+    //    reset({...defaultValues, data});
   };
-  //console.log(obj)
+  // lắng nghe data của username -> giống onChange
   const usernameResult = watch("username");
- // console.log(usernameResult)
-  if(usernameResult === "Van Ty") {
-      // bỏ check validate password và age khi username = Van Ty
-   //   unregister(["password", "age"])
+  if (usernameResult === "Van Ty") {
+    // bỏ check validate password và age khi username = Van Ty
+    //   unregister(["password", "age"])
   }
-  console.log(errors)
+  console.log(errors);
   return (
     <>
       <form onSubmit={handleSubmit(registerHandler)}>
@@ -63,21 +70,18 @@ const ContactForm = () => {
             //   //       }).catch(err => {console.log(err)})
             //   //   }
             // })}
-            error={!!errors.username}
-            helperText={errors?.username?.message}
+            // error={!!errors.username}
+            // helperText={errors?.username?.message}
             type="text"
             name="username"
+            errors={errors?.username?.message || ""}
             ref={register}
             className="form-control"
           />
-          {/* {errors.username && (
-            <span className="error">{errors.username.message}</span>
-          )} */}
         </div>
-
         <div className="form-group">
           <label htmlFor="age">Age</label>
-          <input
+          <InputComponent
             // ref={register({
             //   required: "Age is required",
             //   min: {
@@ -96,15 +100,15 @@ const ContactForm = () => {
             ref={register}
             //  error={!!errors.age}
             //  helperText={errors?.age?.message}
+            errors={errors?.age?.message || ""}
             type="number"
             name="age"
             className="form-control"
           />
-          {errors.age && <span className="error">{errors.age.message}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="date">Date</label>
-          <input
+          <DatePickerComponent
             // ref={register({
             //   required: "Date is required",
             //   valueAsDate: true,
@@ -114,66 +118,53 @@ const ContactForm = () => {
             //       "Event can't be from past",
             //   },
             // })}
+            errors={errors?.date?.message || ""}
             ref={register}
             type="date"
             name="date"
             className="form-control"
           />
-          {errors.date && <span className="error">{errors.date.message}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="status">Status</label>
-          <select
+          <SelectComponent
+            {...register("status")}
             name="status"
+            data={[
+              { key: "Choose", value: "" },
+              { key: "Active", value: "active" },
+              { key: "Deactive", value: "deactive" },
+            ]}
+            errors={errors?.status?.message || ""}
             className="form-control"
-            ref={register({
-              required: "Status is required",
-            })}
-          >
-            <option value="">Choose</option>
-            <option value="active">Active</option>
-            <option value="deactive">Deactive</option>
-          </select>
-          {errors.status && (
-            <span className="error">{errors.status.message}</span>
-          )}
+            ref={register}
+          />
         </div>
         <div className="form-group">
-          <label htmlFor="sex">Sex</label>
-          <input
+          <label htmlFor="sex">Gender</label>
+          <RadioComponent
             type="radio"
-            id="female"
-            value="female"
             name="sex"
+            errors={errors?.sex?.message || ""}
+            data={[
+              { key: "Male", value: "male" },
+              { key: "Female", value: "female" },
+            ]}
             ref={register({
               required: "Sex is required",
             })}
           />
-          <label htmlFor="female">Female</label>
-          <input
-            type="radio"
-            id="male"
-            name="sex"
-            value="male"
-            ref={register({
-              required: "Sex is required",
-            })}
-          />
-          <label htmlFor="male">Male</label>
-          {errors.sex && <span className="error">{errors.sex.message}</span>}
         </div>
         <div className="form-group">
-          <input
+          <CheckboxComponent
             type="checkbox"
-            id="subcribe"
-            // value="female"
             name="subcribe"
+            errors={errors?.subcribe?.message || ""}
+            data={[{ key: "Subcribe", value: "subcribe" }]}
             ref={register({
               required: "Subcribe is required",
             })}
           />
-          <label htmlFor="subcribe">Subcribe</label>
-          {errors.sex && <span className="error">{errors.sex.message}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="age">Phone Number</label>
@@ -185,14 +176,12 @@ const ContactForm = () => {
             //     message: "Please enter a valid phone number",
             //   },
             // })}
+            errors={errors?.phone?.message || ""}
             ref={register}
             type="text"
             name="phone"
             className="form-control"
           />
-          {errors.phone && (
-            <span className="error">{errors.phone.message}</span>
-          )}
         </div>
         <div className="form-group">
           <label htmlFor="email">Email</label>
@@ -204,33 +193,29 @@ const ContactForm = () => {
             //     message: "Please enter a valid email",
             //   },
             // })}
+            errors={errors?.email?.message || ""}
             ref={register}
             type="text"
             name="email"
             className="form-control"
           />
-          {errors.email && (
-            <span className="error">{errors.email.message}</span>
-          )}
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <InputComponent
-            ref={register({
-              required: "Password is required",
-              minLength: {
-                value: 5,
-                message: "Password shouldn't be shorter than 5 characters",
-              },
-            })}
-          //  ref={register}
+            errors={errors?.password?.message || ""}
+            // ref={register({
+            //   required: "Password is required",
+            //   minLength: {
+            //     value: 5,
+            //     message: "Password shouldn't be shorter than 5 characters",
+            //   },
+            // })}
+            ref={register}
             type="password"
             name="password"
             className="form-control"
           />
-          {errors.password && (
-            <span className="error">{errors.password.message}</span>
-          )}
         </div>
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
@@ -248,14 +233,12 @@ const ContactForm = () => {
             //     },
             //   },
             // })}
+            errors={errors?.confirmPassword?.message || ""}
             ref={register}
             type="password"
             name="confirmPassword"
             className="form-control"
           />
-          {errors.confirmPassword && (
-            <span className="error">{errors.confirmPassword.message}</span>
-          )}
         </div>
         <ButtonComponent
           onClick={() => {
@@ -267,13 +250,6 @@ const ContactForm = () => {
         </ButtonComponent>
         <ButtonComponent type="submit">submit</ButtonComponent>
       </form>
-      {/* <div className="text-center">
-        <p>{userName}</p>
-        <p>{age}</p>
-        <p>{email}</p>
-        <p>{password}</p>
-        <p>{confirmPassword}</p>
-      </div> */}
     </>
   );
 };

@@ -1,13 +1,13 @@
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { forwardRef } from "react";
 import TextErrors from "../TextErrors";
-const InputComponent = forwardRef((props, ref) => {
+const DatePickerComponent = forwardRef((props, ref) => {
   return (
     <>
       <TextField
         // label="Outlined"
-        style={{marginBottom:"2.5rem"}}
         variant="outlined"
+        style={{marginBottom:"2.5rem"}}
         margin="normal"
         inputRef={ref}
         fullWidth
@@ -19,4 +19,4 @@ const InputComponent = forwardRef((props, ref) => {
     </>
   );
 });
-export default InputComponent;
+export default DatePickerComponent;

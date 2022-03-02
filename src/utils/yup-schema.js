@@ -4,7 +4,7 @@ import { emailPattern, getTomorrow, phonePattern } from "./helpers";
 export const yupSchema = yup.object().shape({
   username: yup
     .string()
-    .required("Please enter your name")
+    .required("Please enter your username")
     .max(20, "Username should be less than 20 characters")
     .min(2, "Username should be longer than 2 characters"),
   // .test("checkAPIUsername", "Wrong username",
@@ -21,13 +21,13 @@ export const yupSchema = yup.object().shape({
     .min(13, "User should be older than 13 years old")
     .integer("Please enter an integer.")
     .required("Please enter your age")
-    .typeError("Please enter a valid number")
+    .typeError("Please enter your age")
     .test(
       "retirementAgeChecking",
       "This user is eligible for retirement",
       (value, context) => value < 60
     ),
-  date: yup.date().min(getTomorrow(), "Event can't be from the past"),
+  date: yup.date().min(getTomorrow(), "Event can't be from the past").typeError("Please enter your date"),
   // .string()
   // .required("Date of Birth is required")
   // .matches(
@@ -48,8 +48,8 @@ export const yupSchema = yup.object().shape({
   password: yup
     .string()
     .required("Please enter your password")
-    .min(6, "Password should be longer than 6 character")
-    .oneOf([yup.ref("confirmPassword")], "Password don't match"),
+    .min(6, "Password should be longer than 6 character"),
+ //   .oneOf([yup.ref("confirmPassword")], "Password don't match"),
   confirmPassword: yup
     .string()
     .required("Please enter your password")
